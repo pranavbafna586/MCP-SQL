@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MCP Database Query Interface</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>MCP Database Query Interface</h1>
+            <p>Use natural language to query your MySQL database through Gemini AI</p>
+        </header>
+
+        <section class="connection-status">
+            <div id="status-indicator" class="status-disconnected">
+                <span id="status-text">Disconnected</span>
+            </div>
+            <button id="test-connection">Test Database Connection</button>
+        </section>
+
+        <section class="query-section">
+            <div class="input-container">
+                <label for="query-input">Enter your query in natural language:</label>
+                <textarea id="query-input"
+                    placeholder="Example: 'Show me all users' or 'Add a new product named Laptop with price $999'"></textarea>
+            </div>
+
+            <div class="mode-container">
+                <h3>Database Operation Mode</h3>
+                <div class="mode-toggle">
+                    <input type="checkbox" id="write-mode-toggle">
+                    <label for="write-mode-toggle">Enable Write Mode</label>
+                </div>
+
+                <div id="write-permissions" class="hidden">
+                    <div class="permission">
+                        <input type="checkbox" id="allow-insert">
+                        <label for="allow-insert">Allow Insert</label>
+                    </div>
+                    <div class="permission">
+                        <input type="checkbox" id="allow-update">
+                        <label for="allow-update">Allow Update</label>
+                    </div>
+                    <div class="permission">
+                        <input type="checkbox" id="allow-delete">
+                        <label for="allow-delete">Allow Delete</label>
+                    </div>
+                </div>
+            </div>
+
+            <button id="run-query">Run Query</button>
+        </section>
+
+        <section class="results-section">
+            <div class="message-container">
+                <div id="message" class=""></div>
+            </div>
+
+            <div class="generated-query-container">
+                <h3>Generated SQL Query:</h3>
+                <pre id="generated-query">-- SQL query will appear here --</pre>
+            </div>
+
+            <div class="results-container">
+                <h3>Results:</h3>
+                <div id="results-table"></div>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <p>MCP Server &copy; 2025 - Powered by Gemini API</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

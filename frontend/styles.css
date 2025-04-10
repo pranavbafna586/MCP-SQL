@@ -1,0 +1,469 @@
+/* styles.css - Main stylesheet for the MCP Database Query Interface */
+
+/* Global styles and variables */
+:root {
+  --primary-color: #2c3e50;
+  --secondary-color: #3498db;
+  --success-color: #2ecc71;
+  --error-color: #e74c3c;
+  --warning-color: #f39c12;
+  --light-color: #ecf0f1;
+  --dark-color: #34495e;
+  --border-radius: 5px;
+  --box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  color: #333;
+  background-color: var(--light-color);
+}
+
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Header styles */
+header {
+  text-align: center;
+  margin-bottom: 30px;
+  padding: 20px;
+  background-color: var(--primary-color);
+  color: white;
+  border-radius: var(--border-radius);
+}
+
+header h1 {
+  margin-bottom: 10px;
+}
+
+/* Connection status styles */
+.connection-status {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  padding: 15px;
+  background-color: white;
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+}
+
+#status-indicator {
+  display: flex;
+  align-items: center;
+  padding: 8px 15px;
+  border-radius: 20px;
+  margin-right: 15px;
+  font-weight: bold;
+}
+
+.status-connected {
+  background-color: var(--success-color);
+  color: white;
+}
+
+.status-disconnected {
+  background-color: var(--error-color);
+  color: white;
+}
+
+.status-loading {
+  background-color: var(--warning-color);
+  color: white;
+}
+
+#test-connection {
+  padding: 8px 15px;
+  background-color: var(--secondary-color);
+  color: white;
+  border: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+#test-connection:hover {
+  background-color: #2980b9;
+}
+
+/* Query section styles */
+.query-section {
+  margin-bottom: 30px;
+  padding: 20px;
+  background-color: white;
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+}
+
+.input-container {
+  margin-bottom: 20px;
+}
+
+.input-container label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+#query-input {
+  width: 100%;
+  height: 100px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: var(--border-radius);
+  resize: vertical;
+  font-family: inherit;
+}
+
+.mode-container {
+  margin-bottom: 20px;
+  padding: 15px;
+  background-color: #f8f9fa;
+  border-radius: var(--border-radius);
+}
+
+.mode-container h3 {
+  margin-bottom: 10px;
+  color: var(--primary-color);
+}
+
+.mode-toggle {
+  margin-bottom: 15px;
+}
+
+#write-permissions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  padding-top: 10px;
+  margin-top: 10px;
+  border-top: 1px solid #ddd;
+}
+
+.permission {
+  display: flex;
+  align-items: center;
+}
+
+.permission label {
+  margin-left: 5px;
+}
+
+.hidden {
+  display: none;
+}
+
+#run-query {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  background-color: var(--secondary-color);
+  color: white;
+  border: none;
+  border-radius: var(--border-radius);
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+#run-query:hover {
+  background-color: #2980b9;
+}
+
+/* Results section styles */
+.results-section {
+  background-color: white;
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  overflow: hidden;
+}
+
+.message-container {
+  padding: 15px;
+  margin-bottom: 10px;
+}
+
+#message {
+  padding: 10px;
+  border-radius: var(--border-radius);
+  display: none;
+}
+
+#message.success {
+  display: block;
+  background-color: rgba(46, 204, 113, 0.1);
+  border: 1px solid var(--success-color);
+  color: var(--success-color);
+}
+
+#message.error {
+  display: block;
+  background-color: rgba(231, 76, 60, 0.1);
+  border: 1px solid var(--error-color);
+  color: var(--error-color);
+}
+
+#message.info {
+  display: block;
+  background-color: rgba(52, 152, 219, 0.1);
+  border: 1px solid var(--secondary-color);
+  color: var(--secondary-color);
+}
+
+.generated-query-container {
+  padding: 15px;
+  border-top: 1px solid #eee;
+}
+
+.generated-query-container h3 {
+  margin-bottom: 10px;
+  color: var(--primary-color);
+}
+
+#generated-query {
+  padding: 15px;
+  background-color: #f8f9fa;
+  border-radius: var(--border-radius);
+  overflow-x: auto;
+  white-space: pre-wrap;
+  font-family: monospace;
+}
+
+.results-container {
+  padding: 15px;
+  border-top: 1px solid #eee;
+}
+
+.results-container h3 {
+  margin-bottom: 10px;
+  color: var(--primary-color);
+}
+
+#results-table {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+table th {
+  background-color: var(--dark-color);
+  color: white;
+  text-align: left;
+  padding: 10px;
+}
+
+table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+}
+
+table tr:nth-child(even) {
+  background-color: #f8f9fa;
+}
+
+/* Footer styles */
+footer {
+  text-align: center;
+  padding: 20px;
+  margin-top: 30px;
+  color: #777;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .connection-status {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  #status-indicator {
+    margin-bottom: 10px;
+    margin-right: 0;
+  }
+
+  #write-permissions {
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+
+/* Styles for multiple queries */
+.queries-container {
+  margin-bottom: 30px;
+}
+
+.query-result-container {
+  margin-bottom: 20px;
+  padding: 15px;
+  border-radius: var(--border-radius);
+  border-left: 5px solid transparent;
+}
+
+.query-result-container.success {
+  border-left-color: var(--success-color);
+  background-color: rgba(46, 204, 113, 0.05);
+}
+
+.query-result-container.error {
+  border-left-color: var(--error-color);
+  background-color: rgba(231, 76, 60, 0.05);
+}
+
+.query-status {
+  display: inline-block;
+  padding: 3px 8px;
+  border-radius: 3px;
+  font-size: 12px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.query-status.success {
+  background-color: var(--success-color);
+  color: white;
+}
+
+.query-status.error {
+  background-color: var(--error-color);
+  color: white;
+}
+
+.query-message {
+  margin-bottom: 15px;
+  font-weight: bold;
+}
+
+.query-sql {
+  margin-bottom: 15px;
+}
+
+.query-sql pre {
+  background-color: #f8f9fa;
+  padding: 10px;
+  border-radius: 3px;
+  overflow-x: auto;
+}
+
+.query-results {
+  margin: 15px 0;
+}
+
+.query-no-results {
+  font-style: italic;
+  color: #777;
+  margin: 10px 0;
+}
+
+/* Modified tables section */
+.modified-tables-container {
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 2px solid var(--secondary-color);
+}
+
+.modified-tables-heading {
+  color: var(--primary-color);
+  margin-bottom: 15px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid #eee;
+}
+
+.modified-table {
+  margin-bottom: 20px;
+  padding: 15px;
+  background-color: rgba(52, 152, 219, 0.05);
+  border-radius: var(--border-radius);
+  border-left: 5px solid var(--secondary-color);
+}
+
+.modified-table h4 {
+  margin-bottom: 10px;
+  color: var(--secondary-color);
+}
+
+/* Error message styling improvements */
+.query-message:empty {
+  display: none;
+}
+
+.query-result-container.error .query-message {
+  background-color: rgba(231, 76, 60, 0.1);
+  border: 1px solid var(--error-color);
+  color: var(--error-color);
+}
+
+/* Additional styles for the raw Gemini response debug display */
+.debug-container {
+  margin-top: 30px;
+  padding: 15px;
+  background-color: #f8f9fa;
+  border: 1px solid #ddd;
+  border-radius: var(--border-radius);
+}
+
+.debug-heading {
+  color: #6c757d;
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.toggle-debug-button {
+  background-color: #6c757d;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.toggle-debug-button:hover {
+  background-color: #5a6268;
+}
+
+.raw-response {
+  background-color: #343a40;
+  color: #f8f9fa;
+  padding: 15px;
+  border-radius: 5px;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  font-family: monospace;
+  font-size: 12px;
+  line-height: 1.5;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.raw-prompt {
+  background-color: #232b2b;
+  color: #a4c2c2;
+  padding: 15px;
+  border-radius: 5px;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  font-family: monospace;
+  font-size: 12px;
+  line-height: 1.5;
+  max-height: 400px;
+  overflow-y: auto;
+  margin-bottom: 20px;
+}
+
+.debug-container > .toggle-debug-button {
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
