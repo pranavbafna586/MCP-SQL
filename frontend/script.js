@@ -19,6 +19,9 @@ const elements = {
   allowDelete: document.getElementById("allow-delete"),
   runQueryBtn: document.getElementById("run-query"),
 
+  // Developer mode toggle
+  devModeToggle: document.getElementById("dev-mode-toggle"),
+
   // Results display elements
   message: document.getElementById("message"),
   generatedQuery: document.getElementById("generated-query"),
@@ -30,6 +33,7 @@ const state = {
   connected: false,
   loading: false,
   mode: "read-only",
+  devMode: false, // Add developer mode state
 };
 
 // Event Listeners
@@ -40,8 +44,18 @@ document.addEventListener("DOMContentLoaded", () => {
   // Write mode toggle
   elements.writeModeToggle.addEventListener("change", toggleWriteMode);
 
+  // Developer mode toggle
+  elements.devModeToggle.addEventListener("change", toggleDevMode);
+
   // Run query button
   elements.runQueryBtn.addEventListener("click", handleQuerySubmission);
+
+  // Check if dev mode was previously enabled
+  const savedDevMode = localStorage.getItem("devMode") === "true";
+  if (savedDevMode) {
+    elements.devModeToggle.checked = true;
+    toggleDevMode({ target: elements.devModeToggle });
+  }
 });
 
 // Handler Functions
@@ -70,14 +84,68 @@ function toggleWriteMode(event) {
   if (event.target.checked) {
     elements.writePermissions.classList.remove("hidden");
     state.mode = "write";
+
+    // Automatically check all permission toggles when enabling write mode
+    elements.allowInsert.checked = true;
+    elements.allowUpdate.checked = true;
+    elements.allowDelete.checked = true;
   } else {
     elements.writePermissions.classList.add("hidden");
-    // Reset checkboxes when disabling write mode
+    // Reset toggle switches when disabling write mode
     elements.allowInsert.checked = false;
     elements.allowUpdate.checked = false;
     elements.allowDelete.checked = false;
     state.mode = "read-only";
   }
+}
+
+// Function to toggle developer mode
+function toggleDevMode(event) {
+  // Toggle the state based on the checkbox value
+  state.devMode = event.target.checked;
+
+  // Save the setting to localStorage for persistence
+  localStorage.setItem("devMode", state.devMode);
+
+  // Get all developer-only content containers
+  const debugContainers = document.querySelectorAll(".debug-container");
+  const queryContainers = document.querySelectorAll(".query-result-container");
+  const modifiedTablesContainer = document.querySelector(".modified-tables-container");
+
+  // Handle debug containers - completely hide/show based on dev mode
+  debugContainers.forEach((container) => {
+    container.style.display = state.devMode ? "block" : "none";
+  });
+
+  // Update query result containers to show/hide detailed status info
+  queryContainers.forEach((container) => {
+    // Show/hide status indicators and detailed messages
+    const statusElements = container.querySelectorAll(".query-status, .query-message");
+    statusElements.forEach((el) => {
+      el.style.display = state.devMode ? "block" : "none";
+    });
+
+    // Update heading text
+    const heading = container.querySelector("h3");
+    if (heading) {
+      const queryNumber = heading.textContent.match(/Query (\d+)/);
+      if (queryNumber) {
+        heading.textContent = state.devMode
+          ? `Query ${queryNumber[1]}`
+          : "SQL Query Result";
+      }
+    }
+  });
+
+  // If we have multiple query results displayed, we should only show the first one in non-dev mode
+  if (queryContainers.length > 1) {
+    // In non-dev mode, hide all but the first query
+    for (let i = 1; i < queryContainers.length; i++) {
+      queryContainers[i].style.display = state.devMode ? "block" : "none";
+    }
+  }
+
+  console.log(`Developer mode ${state.devMode ? "enabled" : "disabled"}`);
 }
 
 async function handleQuerySubmission() {
@@ -182,6 +250,13 @@ function setLoading(isLoading) {
 function showMessage(text, type) {
   elements.message.textContent = text;
   elements.message.className = type; // 'success', 'error', or 'info'
+
+  // Auto-hide the message after 5 seconds unless it's an error
+  if (type !== "error") {
+    setTimeout(() => {
+      elements.message.className = "";
+    }, 5000);
+  }
 }
 
 function clearResults() {
@@ -197,26 +272,34 @@ function displayMultipleQueries(queries) {
   const queriesContainer = document.createElement("div");
   queriesContainer.className = "queries-container";
 
-  queries.forEach((queryData, index) => {
+  // In non-dev mode, only show the first query (without developer details)
+  const queriesToShow = state.devMode ? queries : [queries[0]];
+
+  queriesToShow.forEach((queryData, index) => {
     const queryContainer = document.createElement("div");
     queryContainer.className = `query-result-container ${queryData.status}`;
 
-    // Create header with query number
+    // Create header with query number (only show numbers in dev mode)
     const queryHeader = document.createElement("h3");
-    queryHeader.textContent = `Query ${queryData.queryNumber}`;
+    queryHeader.textContent = state.devMode
+      ? `Query ${queryData.queryNumber}`
+      : "SQL Query Result";
     queryContainer.appendChild(queryHeader);
 
-    // Add status indicator
-    const statusIndicator = document.createElement("div");
-    statusIndicator.className = `query-status ${queryData.status}`;
-    statusIndicator.textContent = queryData.status.toUpperCase();
-    queryContainer.appendChild(statusIndicator);
+    // In dev mode, show additional status and message information
+    if (state.devMode) {
+      // Add status indicator
+      const statusIndicator = document.createElement("div");
+      statusIndicator.className = `query-status ${queryData.status}`;
+      statusIndicator.textContent = queryData.status.toUpperCase();
+      queryContainer.appendChild(statusIndicator);
 
-    // Add message (especially important for errors)
-    const messageDiv = document.createElement("div");
-    messageDiv.className = "query-message";
-    messageDiv.textContent = queryData.message;
-    queryContainer.appendChild(messageDiv);
+      // Add message (especially important for errors)
+      const messageDiv = document.createElement("div");
+      messageDiv.className = "query-message";
+      messageDiv.textContent = queryData.message;
+      queryContainer.appendChild(messageDiv);
+    }
 
     // Show the SQL query
     const sqlDiv = document.createElement("div");
@@ -253,13 +336,20 @@ function displayMultipleQueries(queries) {
       queryContainer.appendChild(noResultsDiv);
     }
 
-    // Add a separator between queries
-    queryContainer.appendChild(document.createElement("hr"));
+    // Only add separators in dev mode
+    if (state.devMode) {
+      queryContainer.appendChild(document.createElement("hr"));
+    }
 
     queriesContainer.appendChild(queryContainer);
   });
 
   elements.resultsTable.appendChild(queriesContainer);
+
+  // Always update the main generated query area with the first query
+  if (queries.length > 0) {
+    elements.generatedQuery.textContent = queries[0].query;
+  }
 }
 
 // Display tables that were modified
@@ -349,6 +439,11 @@ function displayResults(results) {
 
 // Display the raw Gemini API response and prompt (for debugging)
 function displayRawGeminiResponse(rawResponse, fullPrompt) {
+  // Only show debug information if developer mode is enabled
+  if (!state.devMode) {
+    return;
+  }
+
   // Log debug info to console to help troubleshoot
   console.log("Debug info received:", {
     hasRawResponse: !!rawResponse,

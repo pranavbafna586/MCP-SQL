@@ -6,20 +6,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MCP Database Query Interface</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
 <body>
     <div class="container">
         <header>
-            <h1>MCP Database Query Interface</h1>
-            <p>Use natural language to query your MySQL database through Gemini AI</p>
+            <div class="header-content">
+                <div class="header-title">
+                    <h1><i class="fas fa-database"></i> MCP Database Query Interface</h1>
+                    <p>Use natural language to query your MySQL database through Gemini AI</p>
+                </div>
+                <div class="dev-mode-container">
+                    <span>Developer Mode</span>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="dev-mode-toggle">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+            </div>
         </header>
 
         <section class="connection-status">
             <div id="status-indicator" class="status-disconnected">
+                <i class="fas fa-circle"></i>
                 <span id="status-text">Disconnected</span>
             </div>
-            <button id="test-connection">Test Database Connection</button>
+            <button id="test-connection"><i class="fas fa-plug"></i> Test Database Connection</button>
         </section>
 
         <section class="query-section">
@@ -30,29 +43,45 @@
             </div>
 
             <div class="mode-container">
-                <h3>Database Operation Mode</h3>
-                <div class="mode-toggle">
-                    <input type="checkbox" id="write-mode-toggle">
-                    <label for="write-mode-toggle">Enable Write Mode</label>
+                <h3><i class="fas fa-shield-alt"></i> Database Operation Mode</h3>
+                <div class="mode-toggle-container">
+                    <span>Read-Only Mode</span>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="write-mode-toggle">
+                        <span class="toggle-slider"></span>
+                    </label>
+                    <span>Write Mode</span>
                 </div>
 
                 <div id="write-permissions" class="hidden">
-                    <div class="permission">
-                        <input type="checkbox" id="allow-insert">
-                        <label for="allow-insert">Allow Insert</label>
-                    </div>
-                    <div class="permission">
-                        <input type="checkbox" id="allow-update">
-                        <label for="allow-update">Allow Update</label>
-                    </div>
-                    <div class="permission">
-                        <input type="checkbox" id="allow-delete">
-                        <label for="allow-delete">Allow Delete</label>
+                    <div class="permissions-title">Allowed Operations:</div>
+                    <div class="permissions-container">
+                        <div class="permission">
+                            <span>Allow INSERT</span>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="allow-insert">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <div class="permission">
+                            <span>Allow UPDATE</span>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="allow-update">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <div class="permission">
+                            <span>Allow DELETE</span>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="allow-delete">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <button id="run-query">Run Query</button>
+            <button id="run-query"><i class="fas fa-play-circle"></i> Run Query</button>
         </section>
 
         <section class="results-section">
@@ -61,19 +90,19 @@
             </div>
 
             <div class="generated-query-container">
-                <h3>Generated SQL Query:</h3>
+                <h3><i class="fas fa-code"></i> Generated SQL Query:</h3>
                 <pre id="generated-query">-- SQL query will appear here --</pre>
             </div>
 
             <div class="results-container">
-                <h3>Results:</h3>
+                <h3><i class="fas fa-table"></i> Results:</h3>
                 <div id="results-table"></div>
             </div>
         </section>
     </div>
 
     <footer>
-        <p>MCP Server &copy; 2025 - Powered by Gemini API</p>
+        <p>MCP Server &copy; 2025 - Powered by <span class="gemini-text">Gemini</span> API</p>
     </footer>
 
     <script src="script.js"></script>
