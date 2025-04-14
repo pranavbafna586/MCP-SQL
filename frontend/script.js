@@ -3,7 +3,7 @@
 // Config
 const API_BASE_URL = "http://localhost:3000/api";
 
-// DOM Element References
+// DOM Element References - All elements are in active use
 const elements = {
   // Status and connection elements
   statusIndicator: document.getElementById("status-indicator"),
@@ -110,7 +110,9 @@ function toggleDevMode(event) {
   // Get all developer-only content containers
   const debugContainers = document.querySelectorAll(".debug-container");
   const queryContainers = document.querySelectorAll(".query-result-container");
-  const modifiedTablesContainer = document.querySelector(".modified-tables-container");
+  const modifiedTablesContainer = document.querySelector(
+    ".modified-tables-container"
+  );
 
   // Handle debug containers - completely hide/show based on dev mode
   debugContainers.forEach((container) => {
@@ -120,7 +122,9 @@ function toggleDevMode(event) {
   // Update query result containers to show/hide detailed status info
   queryContainers.forEach((container) => {
     // Show/hide status indicators and detailed messages
-    const statusElements = container.querySelectorAll(".query-status, .query-message");
+    const statusElements = container.querySelectorAll(
+      ".query-status, .query-message"
+    );
     statusElements.forEach((el) => {
       el.style.display = state.devMode ? "block" : "none";
     });

@@ -50,6 +50,30 @@ npm start
    - Simply open `frontend/index.html` in your browser
    - Alternatively, use a local HTTP server to serve the frontend
 
+### Running the Application
+
+#### Running the Frontend
+
+Navigate to the frontend directory and start a simple HTTP server:
+
+```bash
+cd frontend
+python -m http.server
+```
+
+This will serve the frontend application on http://localhost:8000 by default.
+
+#### Running the Backend
+
+Navigate to the backend directory and start the Node.js server:
+
+```bash
+cd backend
+node src/index.js
+```
+
+This will start the backend server according to the port specified in your environment variables (default: 3000).
+
 ### Database Setup
 
 You can import the sample database structure using the provided SQL file:
