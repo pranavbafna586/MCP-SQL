@@ -41,9 +41,11 @@ PORT=3000
 3. Install dependencies and start the server:
 
 ```
-cd backend
-npm install
-npm start
+cd .\frontend\
+python -m http.server
+
+cd .\backend\
+node .\src\index.js
 ```
 
 4. Open the frontend:
