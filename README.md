@@ -1,7 +1,17 @@
 # MCP Server with MySQL and Gemini API Integration
 
 An interactive natural language to SQL query application that uses the Model Context Protocol (MCP) server to connect MySQL with the Gemini API. This application allows users to interact with a MySQL database using natural language queries.
+# Application Overview
+![Application Overview](./images/Main.png)
 
+# Query From the AI
+![Response Of AI](images/Main_1.png)
+
+# Query Executed Successfully
+![Query Executed Successfully](images/Main_2.png)
+
+# Developer Options
+![Developer Options](images/Main_3.png)
 ## Features
 
 - **Natural Language Interface**: Query your database using plain English
@@ -98,6 +108,8 @@ This creates a sample database with users, products, orders, and related tables 
    - See generated SQL queries and their results
    - For data modification operations, view the current state of modified tables
 
+![Application Usage](./images/Main_1.png)
+
 ## Example Queries
 
 ### Read-Only Examples:
@@ -106,6 +118,8 @@ This creates a sample database with users, products, orders, and related tables 
 - "List products in the Electronics category"
 - "What's the total value of all pending orders?"
 - "Find the most expensive product"
+
+![Query Results Example](./images/Main_2.png)
 
 ### Write Mode Examples:
 
@@ -124,6 +138,8 @@ The application now supports executing multiple SQL operations from a single pro
 Create a new table called employees with columns for id, name, position, and salary,
 then add three employees: John (Manager, $5000), Mary (Developer, $4500), and Bob (Designer, $4000).
 ```
+
+![Multiple Operations Example](./images/Main_3.png)
 
 ### Modified Tables Display
 
@@ -153,5 +169,3 @@ Errors are now clearly categorized as:
 - Basic SQL injection prevention measures are implemented
 
 ---
-
-Created as a demonstration of the Model Context Protocol (MCP) server capabilities
